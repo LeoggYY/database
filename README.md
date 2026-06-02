@@ -94,11 +94,12 @@ CREATE TABLE Product (
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
 | `ProductID` |   int   | 商品編號 | 否 | PK |
-| `Name`   | string | 使用者名字 | 否 | 使用者姓名格式 |
-| `Email`  | string | 使用者電子信箱   | 否 | 唯一且符合電子郵件格式 |
-| `Password` |   string  | 密碼 | 否 | 長度8~10至少包含一個英文字和數字 |
-| `Account` |   string   | 帳號 | 否 | 長度8~10至少包含一個英文字和數字 |
-| `Role` |  string   | 角色 | 否 | 只會是admin or user |
+| `Description`   | string | 產品描述 | 否 | 無 |
+| `Seller`  | int | 賣家編號   | 否 | FK(關聯至User表) |
+| `CategoryID` |   int  | 分類編號 | 否 | FK(關聯至Category表) |
+| `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
+| `Price` |  decimal   | 產品價格 | 否 | 無 |
+| `Status` |  string   | 產品價格 | 否 | 上架中，以交換，以下架 |
 
 ---
 ### `Message` -訊息資料表
