@@ -115,3 +115,29 @@ FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
 | `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
 | `Content` |   decimal   | 訊息內容 | 否 | 須包含文字不可為空 |
 | `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
+---
+### `Exchanges` -交換資料表
+  ```sql
+CREATE TABLE Exchanges (
+ExchangesID INT PRIMARY KEY,
+ProposerUserID INT NOT NULL,
+ProposerProductID INT NOT NULL,
+ReceiverProductID INT NOT NULL,
+OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+Status VARCHAR(20) NOT NULL,
+CONSTRAINT chk_exchange_status CHECK (Status IN ('待確認','已同意','已拒绝','已完成')),
+FOREIGN KEY (ProposerUserID) REFERENCES Users (UserID),
+FOREIGN KEY (ProposerProductID) REFERENCES Product (ProductID),
+FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
+);
+
+  ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `ExchangesID` |   int   | 訊號編號 | 否 | PK |
+| `ProposerUserID`   | int | 發起者編號 | 否 | FK(關聯至User表) |
+| `ProposerProductID`  | int | 提出者提供的物品編號  | 否 | FK(關聯至Product表) |
+| `ReceiverProductID` |   int  | 對方物品編號 | 否 | FK(關聯至Product表) |
+| `OrderDate` |   datetime   | 訊息內容 | 否 | 預設為系統當前時間 |
+| `Status` |  string   | 發送時間 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
+---
