@@ -24,7 +24,7 @@
 
 ## 資料庫設計圖(ERDIAGRAM)
 
-    ![飲料點餐系統ER圖](ER.jpg)
+    ![ER圖](ER.jpg)
 
 ---### `users` -使用者資料表
 
