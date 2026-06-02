@@ -24,7 +24,7 @@
 
 ## 資料庫設計圖(ERDIAGRAM)]
 
- ![ERDIAGRAM](ED.jpg)
+ ![ERDIAGRAM](ER.jpg)
 
 ### `users` -使用者資料表
 
