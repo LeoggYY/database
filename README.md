@@ -29,15 +29,25 @@
 ---### `users` -使用者資料表
 
   ```sql
- CREATE TABLE Users (
+CREATE TABLE Users (
     UserID INT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL UNIQUE,
-    Password VARCHAR(20) NOT NULL,
+    Password VARCHAR(20) NOT NULL, 
     Account VARCHAR(20) NOT NULL,
     Role VARCHAR(10) NOT NULL,
-    CONSTRAINT chk_role CHECK (Role IN ('admin', 'user'))
-  );
+    CONSTRAINT chk_role CHECK (Role IN ('admin', 'user')),
+    CONSTRAINT chk_account_format CHECK (
+        LENGTH(Account) BETWEEN 8 AND 10 AND 
+        Account REGEXP '[A-Za-z]' AND 
+        Account REGEXP '[0-9]'
+    ),
+    CONSTRAINT chk_password_format CHECK (
+        LENGTH(Password) BETWEEN 8 AND 10 AND 
+        Password REGEXP '[A-Za-z]' AND 
+        Password REGEXP '[0-9]'
+    )
+);
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
