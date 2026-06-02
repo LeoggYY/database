@@ -1,4 +1,4 @@
-## 第11組 二手物品交換平台
+<img width="700" height="301" alt="image" src="https://github.com/user-attachments/assets/dc300b0e-3c28-4ef8-98b7-b06b67fbb6db" />## 第11組 二手物品交換平台
 
 ---
 
@@ -60,3 +60,58 @@ CREATE TABLE Users (
 
 ---
 
+### `Category` -分類資料表
+
+ ```sql
+CREATE TABLE Category (
+CategoryID INT PRIMARY KEY,
+CategoryName VARCHAR(50) NOT NULL UNIQUE
+);
+  ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `CategoryID` |   int   | 分類編號 | 否 | PK |
+| `CategoryName`   | string | 分類名稱 | 否 | 唯一(Unique) |
+
+---
+### `Product` -商品資料表
+
+ ```sql
+CREATE TABLE Category (
+CategoryID INT PRIMARY KEY,
+CategoryName VARCHAR(50) NOT NULL UNIQUE
+);
+ ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `ProductID` |   int   | 商品編號 | 否 | PK |
+| `Name`   | string | 使用者名字 | 否 | 使用者姓名格式 |
+| `Email`  | string | 使用者電子信箱   | 否 | 唯一且符合電子郵件格式 |
+| `Password` |   string  | 密碼 | 否 | 長度8~10至少包含一個英文字和數字 |
+| `Account` |   string   | 帳號 | 否 | 長度8~10至少包含一個英文字和數字 |
+| `Role` |  string   | 角色 | 否 | 只會是admin or user |
+
+---
+### `Message` -訊息資料表
+  ```sql
+CREATE TABLE Message (
+MessageID INT PRIMARY KEY,
+SenderID INT NOT NULL,
+ReceiverID INT NOT NULL,
+ProductID INT NOT NULL,
+Content TEXT NOT NULL,
+SentTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY (SenderID) REFERENCES Users (UserID),
+FOREIGN KEY (ReceiverID) REFERENCES Users (UserID),
+FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
+);
+
+  ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `MessageID` |   int   | 訊號編號 | 否 | PK |
+| `SenderID`   | int | 發送者編號 | 否 | FK(關聯至User表) |
+| `ReceiverID`  | int | 接收者編號   | 否 | FK(關聯至User表) |
+| `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
+| `Content` |   decimal   | 訊息內容 | 否 | 須包含文字不可為空 |
+| `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
