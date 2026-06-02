@@ -151,3 +151,16 @@ FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
 | `OrderDate` |   datetime   | 訊息內容 | 否 | 預設為系統當前時間 |
 | `Status` |  string   | 發送時間 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
 ---
+
+## 關係介紹
+
+  ![系統關係圖](ER11.jpg)
+
+  - users ↔️ orders：一位使用者可以有多筆訂單 → 一對多（1:N）
+  - orders ↔️ order_items：一筆訂單可以包含多杯飲料 → 一對多（1:N）
+  - order_items ↔️ drinks：每個訂單項目對應一種飲料品項 → 多對一（N:1）
+  - order_items ↔️ order_item_add_ons：每杯飲料可以選多種加料 → 一對多（1:N）
+  - order_item_add_ons ↔️ add_ons：每筆加料項目指向一種加料類型 → 多對一（N:1）
+
+---
+
