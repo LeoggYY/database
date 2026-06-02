@@ -77,9 +77,18 @@ CategoryName VARCHAR(50) NOT NULL UNIQUE
 ### `Product` -商品資料表
 
  ```sql
-CREATE TABLE Category (
-CategoryID INT PRIMARY KEY,
-CategoryName VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE Product (
+    ProductID INT PRIMARY KEY,
+    Title VARCHAR(100) NOT NULL,
+    Description TEXT,
+    Price DECIMAL(10, 2) NOT NULL,
+    Status VARCHAR(20) NOT NULL,
+    SellerID INT NOT NULL,
+    CategoryID INT NOT NULL,
+    CONSTRAINT chk_price_non_negative CHECK (Price >= 0),
+    CONSTRAINT chk_status_values CHECK (Status IN ('上架中', '已交換', '已下架')),
+    FOREIGN KEY (SellerID) REFERENCES Users(UserID),
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
 );
  ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
