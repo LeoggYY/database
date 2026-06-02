@@ -1,4 +1,4 @@
-<img width="700" height="301" alt="image" src="https://github.com/user-attachments/assets/dc300b0e-3c28-4ef8-98b7-b06b67fbb6db" />## 第11組 二手物品交換平台
+## 第11組 二手物品交換平台
 
 ---
 
