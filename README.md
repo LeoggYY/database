@@ -161,7 +161,7 @@ FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
   - User <-> Message(接收):一位使用者可以接收多則訊息 → 一對多（1:N）
   - User <-> Exchanges(發起交換):一位使用者可以發起多次（筆）交換紀錄 → 一對多（1:N）
   - Product <-> Category(歸類):多個商品可以被歸類在同一個分類下 → 多對一（N:1）
-  - Product <-> Exchanges(包含):一個商品可以被包含在某一筆交換紀錄中 → 多對一（N:1）
+  - Product <-> Exchanges(包含):一個商品只會出現在一筆交換紀錄中 → 一對一（1:1）
 
 ---
 
