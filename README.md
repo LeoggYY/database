@@ -98,7 +98,7 @@ CREATE TABLE Product (
 | `SellerID`  | int | 賣家編號   | 否 | FK(關聯至User表) |
 | `CategoryID` |   int  | 分類編號 | 否 | FK(關聯至Category表) |
 | `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
-| `Price` |  decimal   | 產品價格 | 否 | 無 |
+| `Price` |  decimal   | 產品價格 | 否 | >=0 |
 | `Status` |  string   | 產品價格 | 否 | 上架中，以交換，以下架 |
 
 ---
