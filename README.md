@@ -1,4 +1,4 @@
-## 第11組 二手物品交換平台
+<img width="1372" height="215" alt="image" src="https://github.com/user-attachments/assets/8d66bec2-b4cb-49f7-b322-16d369a2d2eb" />## 第11組 二手物品交換平台
 
 ---
 
@@ -22,11 +22,10 @@
       - 商品狀態追蹤: 使用者可查看交換狀態。
 ---
 
-## 資料庫設計圖(ERDIAGRAM)
---
-    ![ER圖](ER.jpg)
+## 資料庫設計圖(ERDIAGRAM)]
 
---
+ ![ERDIAGRAM](ED.jpg)
+
 ### `users` -使用者資料表
 
   ```sql
