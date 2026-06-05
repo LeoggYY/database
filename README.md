@@ -135,7 +135,7 @@ ProposerProductID INT NOT NULL,
 ReceiverProductID INT NOT NULL,
 OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
 Status VARCHAR(20) NOT NULL,
-CONSTRAINT chk_exchange_status CHECK (Status IN ('待確認','已同意','已拒绝','已完成')),
+CONSTRAINT chk_exchange_status CHECK (Status IN ('待確認','已同意','已拒絕','已完成')),
 FOREIGN KEY (ProposerUserID) REFERENCES Users (UserID),
 FOREIGN KEY (ProposerProductID) REFERENCES Product (ProductID),
 FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
