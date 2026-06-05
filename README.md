@@ -12,11 +12,11 @@
   1. **管理員**
       - 分類管理:管理員可以新增或刪除商品分類
       - 違規處理:管理員可以下架違規商品或停權違規帳號。
-  2. **發起者(買家)**
+  2. **接收者(賣家)**
       - 上架商品:接收者可以上傳商品照片、設定價格、描述商品，下架商品。
       - 交換管理:接收者可以查看發起端提供的物品資訊，並更新交換狀態。
       - 回覆訊息:接收者可以針對發起方的問題進行答覆。
-   3. **接收者(賣家)**
+   3. **發起者(買家)**
       - 商品瀏覽: 系統須提供讓發起端選擇「自身一件物品」與「接收方一件物品」進行配對的功能 。
       - 發起交換請求:一旦發起交換，系統應自動鎖定（Lock）參與交換的兩件物品，防止其同時與他人達成其他交換紀錄。
       - 商品狀態追蹤: 使用者可查看交換狀態。
@@ -99,7 +99,7 @@ CREATE TABLE Product (
 | `CategoryID` |   int  | 分類編號 | 否 | FK(關聯至Category表) |
 | `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
 | `Price` |  decimal   | 產品價格 | 否 | >=0 |
-| `Status` |  string   | 產品價格 | 否 | 上架中，以交換，以下架 |
+| `Status` |  string   | 商品狀態 | 否 | 上架中，已交換，已下架 |
 
 ---
 ### `Message` -訊息資料表
@@ -119,11 +119,11 @@ FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
-| `MessageID` |   int   | 訊號編號 | 否 | PK |
+| `MessageID` |   int   | 訊息編號 | 否 | PK |
 | `SenderID`   | int | 發送者編號 | 否 | FK(關聯至User表) |
 | `ReceiverID`  | int | 接收者編號   | 否 | FK(關聯至User表) |
 | `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
-| `Content` |   decimal   | 訊息內容 | 否 | 須包含文字不可為空 |
+| `Content` |   text   | 訊息內容 | 否 | 須包含文字不可為空 |
 | `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
 ---
 ### `Exchanges` -交換資料表
@@ -144,12 +144,12 @@ FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
-| `ExchangesID` |   int   | 訊號編號 | 否 | PK |
+| `ExchangesID` |   int   | 交換編號 | 否 | PK |
 | `ProposerUserID`   | int | 發起者編號 | 否 | FK(關聯至User表) |
 | `ProposerProductID`  | int | 提出者提供的物品編號  | 否 | FK(關聯至Product表) |
 | `ReceiverProductID` |   int  | 對方物品編號 | 否 | FK(關聯至Product表) |
-| `OrderDate` |   datetime   | 訊息內容 | 否 | 預設為系統當前時間 |
-| `Status` |  string   | 發送時間 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
+| `OrderDate` |   datetime   | 訂單日期 | 否 | 預設為系統當前時間 |
+| `Status` |  string   | 交易狀態 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
 ---
 
 ## 關係介紹
