@@ -24,29 +24,21 @@
 
 ## 資料庫設計圖(ERDIAGRAM)]
 
- ![ERDIAGRAM](ER.jpg)
+ ![ERDIAGRAM](ER1.jpg)
 
 ### `users` -使用者資料表
 
   ```sql
 CREATE TABLE Users (
-    UserID INT PRIMARY KEY,
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(50) NOT NULL,
     Email VARCHAR(100) NOT NULL UNIQUE,
-    Password VARCHAR(20) NOT NULL, 
-    Account VARCHAR(20) NOT NULL,
     Role VARCHAR(10) NOT NULL,
-    CONSTRAINT chk_role CHECK (Role IN ('admin', 'user')),
-    CONSTRAINT chk_account_format CHECK (
-        LENGTH(Account) BETWEEN 8 AND 10 AND 
-        Account REGEXP '[A-Za-z]' AND 
-        Account REGEXP '[0-9]'
-    ),
-    CONSTRAINT chk_password_format CHECK (
-        LENGTH(Password) BETWEEN 8 AND 10 AND 
-        Password REGEXP '[A-Za-z]' AND 
-        Password REGEXP '[0-9]'
-    )
+
+    CONSTRAINT chk_email_format
+        CHECK (Email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'),
+	CONSTRAINT chk_role
+        CHECK (Role IN ('admin', 'user'))
 );
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
@@ -54,8 +46,6 @@ CREATE TABLE Users (
 | `UserID` |   int   | 使用者編號 | 否 | PK |
 | `Name`   | string | 使用者名字 | 否 | 使用者姓名格式 |
 | `Email`  | string | 使用者電子信箱   | 否 | 唯一且符合電子郵件格式 |
-| `Password` |   string  | 密碼 | 否 | 長度8~10至少包含一個英文字和數字 |
-| `Account` |   string   | 帳號 | 否 | 長度8~10至少包含一個英文字和數字 |
 | `Role` |  string   | 角色 | 否 | 只會是admin or user |
 
 ---
@@ -64,8 +54,8 @@ CREATE TABLE Users (
 
  ```sql
 CREATE TABLE Category (
-CategoryID INT PRIMARY KEY,
-CategoryName VARCHAR(50) NOT NULL UNIQUE
+    CategoryID INT PRIMARY KEY AUTO_INCREMENT,
+    CategoryName VARCHAR(50) NOT NULL UNIQUE
 );
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
@@ -78,15 +68,20 @@ CategoryName VARCHAR(50) NOT NULL UNIQUE
 
  ```sql
 CREATE TABLE Product (
-    ProductID INT PRIMARY KEY,
+    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    SellerID INT NOT NULL,
+    CategoryID INT NOT NULL,
     Title VARCHAR(100) NOT NULL,
     Description TEXT,
     Price DECIMAL(10, 2) NOT NULL,
-    Status VARCHAR(20) NOT NULL,
-    SellerID INT NOT NULL,
-    CategoryID INT NOT NULL,
-    CONSTRAINT chk_price_non_negative CHECK (Price >= 0),
-    CONSTRAINT chk_status_values CHECK (Status IN ('上架中', '已交換', '已下架')),
+    Status VARCHAR(20) NOT NULL DEFAULT '上架中',
+
+    CONSTRAINT chk_price
+        CHECK (Price >= 0),
+
+    CONSTRAINT chk_product_status
+        CHECK (Status IN ('上架中', '交換中', '已交換', '已下架')),
+
     FOREIGN KEY (SellerID) REFERENCES Users(UserID),
     FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
 );
@@ -105,15 +100,16 @@ CREATE TABLE Product (
 ### `Message` -訊息資料表
   ```sql
 CREATE TABLE Message (
-MessageID INT PRIMARY KEY,
-SenderID INT NOT NULL,
-ReceiverID INT NOT NULL,
-ProductID INT NOT NULL,
-Content TEXT NOT NULL,
-SentTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-FOREIGN KEY (SenderID) REFERENCES Users (UserID),
-FOREIGN KEY (ReceiverID) REFERENCES Users (UserID),
-FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
+    MessageID INT PRIMARY KEY AUTO_INCREMENT,
+    SenderID INT NOT NULL,
+    ReceiverID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Content TEXT NOT NULL,
+    SentTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (SenderID) REFERENCES Users(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
 );
 
   ```
@@ -129,16 +125,22 @@ FOREIGN KEY (ProductID) REFERENCES Product (ProductID)
 ### `Exchanges` -交換資料表
   ```sql
 CREATE TABLE Exchanges (
-ExchangesID INT PRIMARY KEY,
-ProposerUserID INT NOT NULL,
-ProposerProductID INT NOT NULL,
-ReceiverProductID INT NOT NULL,
-OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-Status VARCHAR(20) NOT NULL,
-CONSTRAINT chk_exchange_status CHECK (Status IN ('待確認','已同意','已拒絕','已完成')),
-FOREIGN KEY (ProposerUserID) REFERENCES Users (UserID),
-FOREIGN KEY (ProposerProductID) REFERENCES Product (ProductID),
-FOREIGN KEY (ReceiverProductID) REFERENCES Product (ProductID)
+    ExchangesID INT PRIMARY KEY AUTO_INCREMENT,
+    ProposerUserID INT NOT NULL,
+    ProposerProductID INT NOT NULL,
+    ReceiverProductID INT NOT NULL,
+    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Status VARCHAR(20) NOT NULL DEFAULT '待確認',
+
+    CONSTRAINT chk_exchange_status
+        CHECK (Status IN ('待確認', '已同意', '已拒絕', '已完成')),
+
+    CONSTRAINT chk_different_products
+        CHECK (ProposerProductID <> ReceiverProductID),
+
+    FOREIGN KEY (ProposerUserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProposerProductID) REFERENCES Product(ProductID),
+    FOREIGN KEY (ReceiverProductID) REFERENCES Product(ProductID)
 );
 
   ```
