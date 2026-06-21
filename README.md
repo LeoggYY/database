@@ -146,22 +146,20 @@ CREATE TABLE Message (
 ### `Exchanges` -交換資料表
   ```sql
 CREATE TABLE Exchanges (
-    ExchangesID INT PRIMARY KEY AUTO_INCREMENT,
+    ExchangeID INT PRIMARY KEY AUTO_INCREMENT,
     ProposerUserID INT NOT NULL,
-    ProposerProductID INT NOT NULL,
-    ReceiverProductID INT NOT NULL,
-    OrderDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ReceiverUserID INT NOT NULL,
+    OrderDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     Status VARCHAR(20) NOT NULL DEFAULT '待確認',
 
     CONSTRAINT chk_exchange_status
         CHECK (Status IN ('待確認', '已同意', '已拒絕', '已完成')),
 
-    CONSTRAINT chk_different_products
-        CHECK (ProposerProductID <> ReceiverProductID),
+    CONSTRAINT chk_exchange_different_users
+        CHECK (ProposerUserID <> ReceiverUserID),
 
     FOREIGN KEY (ProposerUserID) REFERENCES Users(UserID),
-    FOREIGN KEY (ProposerProductID) REFERENCES Product(ProductID),
-    FOREIGN KEY (ReceiverProductID) REFERENCES Product(ProductID)
+    FOREIGN KEY (ReceiverUserID) REFERENCES Users(UserID)
 );
 
   ```
