@@ -35,11 +35,12 @@ CREATE TABLE Users (
     Email VARCHAR(100) NOT NULL UNIQUE,
     Role VARCHAR(10) NOT NULL,
 
-    CONSTRAINT chk_email_format
-        CHECK (Email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'),
-	CONSTRAINT chk_role
+    CONSTRAINT chk_user_email_format
+        CHECK (Email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+[.][A-Za-z]{2,}$'),
+
+    CONSTRAINT chk_user_role
         CHECK (Role IN ('admin', 'user'))
-);
+) ;
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
@@ -56,7 +57,7 @@ CREATE TABLE Users (
 CREATE TABLE Category (
     CategoryID INT PRIMARY KEY AUTO_INCREMENT,
     CategoryName VARCHAR(50) NOT NULL UNIQUE
-);
+) ;
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
@@ -69,23 +70,25 @@ CREATE TABLE Category (
  ```sql
 CREATE TABLE Product (
     ProductID INT PRIMARY KEY AUTO_INCREMENT,
-    SellerID INT NOT NULL,
+    OwnerID INT NOT NULL,
     CategoryID INT NOT NULL,
     Title VARCHAR(100) NOT NULL,
     Description TEXT,
     Price DECIMAL(10, 2) NOT NULL,
-    Status VARCHAR(20) NOT NULL DEFAULT '上架中',
+    Status VARCHAR(20) NOT NULL DEFAULT '可交換',
+    CreatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT chk_price
+    CONSTRAINT chk_product_price
         CHECK (Price >= 0),
 
     CONSTRAINT chk_product_status
-        CHECK (Status IN ('上架中', '交換中', '已交換', '已下架')),
+        CHECK (Status IN ('可交換', '交換中', '已交換', '已下架')),
 
-    FOREIGN KEY (SellerID) REFERENCES Users(UserID),
+    FOREIGN KEY (OwnerID) REFERENCES Users(UserID),
     FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
-);
+) ;
  ```
+
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
 | `ProductID` |   int   | 商品編號 | 否 | PK |
@@ -95,6 +98,25 @@ CREATE TABLE Product (
 | `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
 | `Price` |  decimal   | 產品價格 | 否 | >=0 |
 | `Status` |  string   | 商品狀態 | 否 | 上架中，已交換，已下架 |
+
+---
+### `ProductImages` -商品圖片資料表
+
+  ```sql
+CREATE TABLE ProductImages (
+    ImageID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    ImageURL VARCHAR(255) NOT NULL,
+
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+) ;
+  ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `UserID` |   int   | 使用者編號 | 否 | PK |
+| `Name`   | string | 使用者名字 | 否 | 使用者姓名格式 |
+| `Email`  | string | 使用者電子信箱   | 否 | 唯一且符合電子郵件格式 |
+| `Role` |  string   | 角色 | 否 | 只會是admin or user |
 
 ---
 ### `Message` -訊息資料表
@@ -153,7 +175,34 @@ CREATE TABLE Exchanges (
 | `OrderDate` |   datetime   | 訂單日期 | 否 | 預設為系統當前時間 |
 | `Status` |  string   | 交易狀態 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
 ---
+### `ExchangeItems` -交換物品資料表
+  ```sql
+CREATE TABLE ExchangeItems (
+    ExchangeItemID INT PRIMARY KEY AUTO_INCREMENT,
+    ExchangeID INT NOT NULL,
+    ProductID INT NOT NULL,
+    Side VARCHAR(20) NOT NULL,
 
+    CONSTRAINT chk_exchange_item_side
+        CHECK (Side IN ('發起方', '接收方')),
+
+    CONSTRAINT uq_exchange_product
+        UNIQUE (ExchangeID, ProductID),
+
+    FOREIGN KEY (ExchangeID) REFERENCES Exchanges(ExchangeID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+) ;
+
+  ```
+| 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
+|----------|---------|-----------|----|--------------|
+| `MessageID` |   int   | 訊息編號 | 否 | PK |
+| `SenderID`   | int | 發送者編號 | 否 | FK(關聯至User表) |
+| `ReceiverID`  | int | 接收者編號   | 否 | FK(關聯至User表) |
+| `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
+| `Content` |   text   | 訊息內容 | 否 | 須包含文字不可為空 |
+| `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
+---
 ## 關係介紹
 
   ![系統關係圖](ER11.jpg)
