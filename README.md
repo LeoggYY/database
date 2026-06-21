@@ -1,4 +1,4 @@
-## 第11組 二手物品交換平台
+第11組 二手物品交換平台
 
 ---
 
@@ -17,8 +17,7 @@
       - 交換管理:接收者可以查看發起端提供的物品資訊，並更新交換狀態。
       - 回覆訊息:接收者可以針對發起方的問題進行答覆。
    3. **發起者(買家)**
-      - 商品瀏覽: 系統須提供讓發起端選擇「自身一件物品」與「接收方一件物品」進行配對的功能 。
-      - 發起交換請求:一旦發起交換，系統應自動鎖定（Lock）參與交換的兩件物品，防止其同時與他人達成其他交換紀錄。
+      - 商品瀏覽: 系統須提供讓發起端選擇「自身一件或多件物品」與「接收方物品」進行配對的功能 。
       - 商品狀態追蹤: 使用者可查看交換狀態。
 ---
 
@@ -92,12 +91,13 @@ CREATE TABLE Product (
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
 | `ProductID` |   int   | 商品編號 | 否 | PK |
-| `Description`   | string | 產品描述 | 否 | 無 |
-| `SellerID`  | int | 賣家編號   | 否 | FK(關聯至User表) |
+| `OwnerID`  | int | 擁有者編號   | 否 | FK(關聯至User表) |
 | `CategoryID` |   int  | 分類編號 | 否 | FK(關聯至Category表) |
 | `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
+| `Description`   | string | 產品描述 | 否 | 無 |
 | `Price` |  decimal   | 產品價格 | 否 | >=0 |
 | `Status` |  string   | 商品狀態 | 否 | 上架中，已交換，已下架 |
+| `CreatedAt` | DATETIME  | 建立時間 | 否 | 預設為系統當前時間 |
 
 ---
 ### `ProductImages` -商品圖片資料表
@@ -113,10 +113,9 @@ CREATE TABLE ProductImages (
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
-| `UserID` |   int   | 使用者編號 | 否 | PK |
-| `Name`   | string | 使用者名字 | 否 | 使用者姓名格式 |
-| `Email`  | string | 使用者電子信箱   | 否 | 唯一且符合電子郵件格式 |
-| `Role` |  string   | 角色 | 否 | 只會是admin or user |
+| `ImageID` |   int   | 圖片編號 | 否 | PK |
+| `ProductID`   | int | 產品編號 | 否 | FK(關聯至Product表) |
+| `ImageURL`  | varchar | 圖片路徑  | 否 | 無 |
 
 ---
 ### `Message` -訊息資料表
@@ -140,7 +139,7 @@ CREATE TABLE Message (
 | `MessageID` |   int   | 訊息編號 | 否 | PK |
 | `SenderID`   | int | 發送者編號 | 否 | FK(關聯至User表) |
 | `ReceiverID`  | int | 接收者編號   | 否 | FK(關聯至User表) |
-| `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
+| `ProductID` |   int  | 產品邊號 | 否 | FK(關聯至Product表) |
 | `Content` |   text   | 訊息內容 | 否 | 須包含文字不可為空 |
 | `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
 ---
@@ -170,10 +169,9 @@ CREATE TABLE Exchanges (
 |----------|---------|-----------|----|--------------|
 | `ExchangesID` |   int   | 交換編號 | 否 | PK |
 | `ProposerUserID`   | int | 發起者編號 | 否 | FK(關聯至User表) |
-| `ProposerProductID`  | int | 提出者提供的物品編號  | 否 | FK(關聯至Product表) |
-| `ReceiverProductID` |   int  | 對方物品編號 | 否 | FK(關聯至Product表) |
+| `ReceiverID` |   int  | 對方物品編號 | 否 | FK(關聯至Product表) |
 | `OrderDate` |   datetime   | 訂單日期 | 否 | 預設為系統當前時間 |
-| `Status` |  string   | 交易狀態 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
+| `Status` |  varchar   | 交易狀態 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
 ---
 ### `ExchangeItems` -交換物品資料表
   ```sql
@@ -196,12 +194,11 @@ CREATE TABLE ExchangeItems (
   ```
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
-| `MessageID` |   int   | 訊息編號 | 否 | PK |
-| `SenderID`   | int | 發送者編號 | 否 | FK(關聯至User表) |
-| `ReceiverID`  | int | 接收者編號   | 否 | FK(關聯至User表) |
-| `ProductID` |   int  | 關聯產品邊號 | 否 | FK(關聯至Product表) |
-| `Content` |   text   | 訊息內容 | 否 | 須包含文字不可為空 |
-| `SentTime` |  datetime   | 發送時間 | 否 | 系統當前時間 |
+| `exchangeItemID` |   int   | 物品交換編號 | 否 | PK |
+| `exchangeID`   | int | 交換編號 | 否 | FK(關聯至exchange表) |
+| `ProductID` |   int  | 商品編號 | 否 | FK(關聯至Product表) |
+| `side` |   varchar   | 角色 | 否 | 例如:發起方，接收方 |
+
 ---
 ## 關係介紹
 
