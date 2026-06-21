@@ -274,5 +274,28 @@ SELECT
 
 <img width="906" height="50" alt="image" src="https://github.com/user-attachments/assets/41cde18a-acca-45db-abbf-a653fb9ad94c" />
 
----
 可以看到各項數據統計，例如使用者數量 商品數量。
+
+---
+view查看可交換物品(user) 
+ ```sql
+CREATE VIEW View_User_AvailableProducts AS
+SELECT
+    p.ProductID,
+    p.Title,
+    p.Description,
+    p.Price,
+    p.Status,
+    p.CreatedAt,
+    u.UserID AS OwnerID,
+    u.Name AS OwnerName,
+    c.CategoryName,
+    pi.ImageURL
+FROM Product p
+JOIN Users u ON p.OwnerID = u.UserID
+JOIN Category c ON p.CategoryID = c.CategoryID
+LEFT JOIN ProductImages pi ON p.ProductID = pi.ProductID
+WHERE p.Status = '可交換';
+```
+---
+<img width="921" height="68" alt="image" src="https://github.com/user-attachments/assets/0cfb6653-4c2a-45ea-b991-5f215a4cc746" />
