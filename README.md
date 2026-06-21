@@ -36,7 +36,7 @@
 
 ## 資料庫設計圖(ERDIAGRAM)
 
- ![ERDIAGRAM](NEWER.jpg)
+ ![ERDIAGRAM](0621.jpg)
 
 ### `users` -使用者資料表
 
@@ -213,7 +213,7 @@ CREATE TABLE ExchangeItems (
 ---
 ## 關係介紹
 
-  ![系統關係圖](NEWER112.jpg)
+  ![系統關係圖](06212.jpg)
 
 - category 1 —— N product：歸類
 - users 1 —— N product：擁有
