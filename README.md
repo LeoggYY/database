@@ -226,4 +226,10 @@ CREATE TABLE ExchangeItems (
 
 
 ---
-
+## view
+view查看某筆交換包含哪些商品
+<img width="865" height="652" alt="image" src="https://github.com/user-attachments/assets/ad32a69d-ca7b-48d6-887f-e2d90c39b39d" />
+這裡只查USER1跟2的交易
+<img width="633" height="360" alt="image" src="https://github.com/user-attachments/assets/57f5d2d9-f7b9-435d-bdd3-d611d4c30c64" />
+可以看到李小美想要用小孩玩具與資料庫課本向王小明交換相機
+---
