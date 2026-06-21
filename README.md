@@ -226,6 +226,135 @@ CREATE TABLE ExchangeItems (
 
 
 ---
+
+## 實際建置
+user資料表建置
+  ```sql
+INSERT INTO Users (UserID, Name, Email, Role)
+VALUES
+(1, '王小明', 'ming@example.com', 'user'),
+(2, '李小美', 'mei@example.com', 'user'),
+(3, '黃曉風', 'feng@example.com', 'user'),
+(4, '陳志豪', 'hao@example.com', 'user'),
+(5, '林怡君', 'yijun@example.com', 'user'),
+(6, '張家瑋', 'jiawei@example.com', 'user'),
+(7, '吳佩珊', 'peishan@example.com', 'user'),
+(8, '劉冠宇', 'guanyu@example.com', 'user'),
+(9, '蔡雅婷', 'yating@example.com', 'user'),
+(10, '管理員', 'admin@example.com', 'admin');
+```
+<img width="304" height="204" alt="image" src="https://github.com/user-attachments/assets/66a1910d-e8fa-4cb1-8dba-4e4fb63aa050" />
+
+---
+Category資料表建置
+  ```sql
+INSERT INTO Category (CategoryID, CategoryName)
+VALUES
+(101, '電子產品'),
+(102, '玩具'),
+(103, '書籍'),
+(104, '衣服'),
+(105, '運動用品'),
+(106, '餐具'),
+(107, '家具'),
+(108, '生活用品'),
+(109, '文具'),
+(110, '收藏品');
+```
+<img width="196" height="219" alt="image" src="https://github.com/user-attachments/assets/f51e4c0e-729e-43f7-b7c8-5f0fe519fafd" />
+
+---
+Product資料表建置
+  ```sql
+INSERT INTO Product (ProductID, OwnerID, CategoryID, Title, Description, Price, Status, CreatedAt)
+VALUES
+(1001, 1, 101, '二手相機', '功能正常，外觀有些微使用痕跡', 5000.00, '交換中', '2026-06-16 09:00:00'),
+(1002, 2, 102, '小孩玩具', '保存良好，適合幼兒使用', 100.00, '交換中', '2026-06-16 09:10:00'),
+(1003, 2, 103, '資料庫課本', '二手書，有少量筆記', 250.00, '交換中', '2026-06-16 09:20:00'),
+(1004, 3, 104, '外套', '尺寸 M，九成新', 300.00, '交換中', '2026-06-16 09:30:00'),
+(1005, 4, 101, '機械鍵盤', '按鍵正常，附 USB 線', 1200.00, '交換中', '2026-06-16 09:40:00'),
+(1006, 5, 108, '後背包', '容量大，適合上課或旅行使用', 600.00, '交換中', '2026-06-16 09:50:00'),
+(1007, 6, 107, '木椅', '椅腳穩固，表面有些刮痕', 800.00, '已交換', '2026-06-16 10:00:00'),
+(1008, 7, 108, '檯燈', '亮度可調整，功能正常', 450.00, '已交換', '2026-06-16 10:10:00'),
+(1009, 8, 105, '羽球拍', '握把稍舊，但可正常使用', 700.00, '可交換', '2026-06-16 10:20:00'),
+(1010, 9, 108, '馬克杯', '全新未使用', 150.00, '可交換', '2026-06-16 10:30:00');
+```
+<img width="724" height="221" alt="image" src="https://github.com/user-attachments/assets/78f35e6b-1d7c-410b-af11-4c91293368ac" />
+
+---
+ProductImage資料表建置
+  ```sql
+INSERT INTO ProductImages (ImageID, ProductID, ImageURL)
+VALUES
+(2001, 1001, 'images/product_1001_camera.jpg'),
+(2002, 1002, 'images/product_1002_toy.jpg'),
+(2003, 1003, 'images/product_1003_book.jpg'),
+(2004, 1004, 'images/product_1004_jacket.jpg'),
+(2005, 1005, 'images/product_1005_keyboard.jpg'),
+(2006, 1006, 'images/product_1006_bag.jpg'),
+(2007, 1007, 'images/product_1007_chair.jpg'),
+(2008, 1008, 'images/product_1008_lamp.jpg'),
+(2009, 1009, 'images/product_1009_racket.jpg'),
+(2010, 1010, 'images/product_1010_cup.jpg');
+
+```
+<img width="344" height="210" alt="image" src="https://github.com/user-attachments/assets/8c1ce60e-4da5-4e19-9624-34b0d1de5ddb" />
+
+---
+ Exchanges資料表建置
+  ```sql
+INSERT INTO Exchanges (ExchangeID, ProposerUserID, ReceiverUserID, OrderDate, Status)
+VALUES
+(5001, 2, 1, '2026-06-16 11:00:00', '待確認'),
+(5002, 3, 2, '2026-06-16 11:20:00', '待確認'),
+(5003, 4, 5, '2026-06-16 11:40:00', '已同意'),
+(5004, 6, 7, '2026-06-16 12:00:00', '已完成'),
+(5005, 8, 9, '2026-06-16 12:20:00', '已拒絕'),
+(5006, 1, 2, '2026-06-16 12:40:00', '已拒絕'),
+(5007, 5, 4, '2026-06-16 13:00:00', '已同意'),
+(5008, 7, 6, '2026-06-16 13:20:00', '已完成'),
+(5009, 9, 8, '2026-06-16 13:40:00', '已拒絕'),
+(5010, 4, 1, '2026-06-16 14:00:00', '待確認');
+```
+<img width="464" height="210" alt="image" src="https://github.com/user-attachments/assets/1c6309e3-6207-4af5-8e2f-5a200caa9604" />
+
+---
+ ExchangeItems資料表建置
+  ```sql
+INSERT INTO ExchangeItems (ExchangeItemID, ExchangeID, ProductID, Side)
+VALUES
+(6001, 5001, 1002, '發起方'),
+(6002, 5001, 1003, '發起方'),
+(6003, 5001, 1001, '接收方'),
+(6004, 5002, 1004, '發起方'),
+(6005, 5002, 1002, '接收方'),
+(6006, 5002, 1003, '接收方'),
+(6007, 5003, 1005, '發起方'),
+(6008, 5003, 1006, '接收方'),
+(6009, 5004, 1007, '發起方'),
+(6010, 5004, 1008, '接收方');
+```
+<img width="321" height="215" alt="image" src="https://github.com/user-attachments/assets/64ca36d2-2d34-42c0-8aed-5be7d199a4ad" />
+
+---
+Message資料表建置
+  ```sql
+INSERT INTO Message (MessageID, ExchangeID, SenderID, ReceiverID, Content, SentTime)
+VALUES
+(8001, 5001, 2, 1, '請問可以用小孩玩具和資料庫課本交換你的相機嗎？', '2026-06-16 11:02:00'),
+(8002, 5001, 1, 2, '可以，請問玩具和課本狀況如何？', '2026-06-16 11:05:00'),
+(8003, 5002, 3, 2, '我想用外套交換你的玩具和課本，可以嗎？', '2026-06-16 11:22:00'),
+(8004, 5002, 2, 3, '可以討論，外套尺寸是 M 嗎？', '2026-06-16 11:25:00'),
+(8005, 5003, 4, 5, '我想用機械鍵盤交換你的後背包。', '2026-06-16 11:42:00'),
+(8006, 5003, 5, 4, '可以，鍵盤目前使用狀況如何？', '2026-06-16 11:45:00'),
+(8007, 5004, 6, 7, '木椅想交換你的檯燈，可以嗎？', '2026-06-16 12:02:00'),
+(8008, 5004, 7, 6, '可以，我們約時間面交。', '2026-06-16 12:05:00'),
+(8009, 5005, 8, 9, '請問羽球拍可以交換馬克杯嗎？', '2026-06-16 12:22:00'),
+(8010, 5005, 9, 8, '不好意思，目前不想交換馬克杯。', '2026-06-16 12:25:00');
+```
+<img width="673" height="203" alt="image" src="https://github.com/user-attachments/assets/3ebf342c-b6fe-4472-a66c-9a9a4838f5b0" />
+
+---
 ## view
 view查看某筆交換包含哪些商品
   ```sql
