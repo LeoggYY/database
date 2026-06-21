@@ -247,8 +247,33 @@ JOIN Category c ON p.CategoryID = c.CategoryID
 LEFT JOIN ProductImages pi ON p.ProductID = pi.ProductID
 WHERE p.Status = '可交換';
 ```
+---
+
 <img width="633" height="360" alt="image" src="https://github.com/user-attachments/assets/57f5d2d9-f7b9-435d-bdd3-d611d4c30c64" />
+
+---
+
 這裡只查USER1跟2的交易
 可以看到李小美想要用小孩玩具與資料庫課本向王小明交換相機
 
 ---
+view後台統計
+  ```sql
+CREATE VIEW View_Admin_DashboardSummary AS
+SELECT
+    (SELECT COUNT(*) FROM Users) AS TotalUsers,
+    (SELECT COUNT(*) FROM Product) AS TotalProducts,
+    (SELECT COUNT(*) FROM Category) AS TotalCategories,
+    (SELECT COUNT(*) FROM Exchanges) AS TotalExchanges,
+    (SELECT COUNT(*) FROM Message) AS TotalMessages,
+    (SELECT COUNT(*) FROM Product WHERE Status = '可交換') AS AvailableProducts,
+    (SELECT COUNT(*) FROM Product WHERE Status = '交換中') AS ExchangingProducts,
+    (SELECT COUNT(*) FROM Exchanges WHERE Status = '待確認') AS PendingExchanges,
+    (SELECT COUNT(*) FROM Exchanges WHERE Status = '已完成') AS CompletedExchanges;
+```
+---
+
+<img width="906" height="50" alt="image" src="https://github.com/user-attachments/assets/41cde18a-acca-45db-abbf-a653fb9ad94c" />
+
+---
+可以看到各項數據統計，例如使用者數量 商品數量。
