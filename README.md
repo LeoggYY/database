@@ -29,7 +29,7 @@
       - 商品狀態追蹤: 使用者可查看交換狀態。
 ---
 
-## 資料庫設計圖(ERDIAGRAM)]
+## 資料庫設計圖(ERDIAGRAM)
 
  ![ERDIAGRAM](NEWER.jpg)
 
