@@ -261,7 +261,8 @@ VALUES
 (109, '文具'),
 (110, '收藏品');
 ```
-<img width="196" height="219" alt="image" src="https://github.com/user-attachments/assets/f51e4c0e-729e-43f7-b7c8-5f0fe519fafd" />
+<img width="197" height="212" alt="image" src="https://github.com/user-attachments/assets/5326cb8f-8647-4673-8372-9046d8ae3546" />
+
 
 ---
 Product資料表建置
