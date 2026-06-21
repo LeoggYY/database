@@ -2,7 +2,7 @@
 ---
 [期末報告ppt](https://canva.link/gnlxj48w45zk4ok) 。
 ---
-[期末報告word](二手物品交換平台.pdf) 。
+[期末報告word](二手物品交換平台word.pdf) 。
 ---
 
 | 姓名 | 學號 |心得|
