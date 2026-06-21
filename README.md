@@ -2,7 +2,7 @@
 ---
 [期末報告ppt](https://canva.link/gnlxj48w45zk4ok) 。
 ---
-[期末報告word](database/finalproject 3.pdf) 。
+[期末報告word](database/finalproject%203.pdf) 。
 ---
 
 | 姓名 | 學號 |心得|
