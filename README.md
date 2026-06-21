@@ -96,7 +96,7 @@ CREATE TABLE Product (
 | `Title` |   string   | 產品名稱 | 否 | 長度上限100個字 |
 | `Description`   | string | 產品描述 | 否 | 無 |
 | `Price` |  decimal   | 產品價格 | 否 | >=0 |
-| `Status` |  string   | 商品狀態 | 否 | 上架中，已交換，已下架 |
+| `Status` |  string   | 商品狀態 | 否 | 可交換，已交換，已下架 |
 | `CreatedAt` | DATETIME  | 建立時間 | 否 | 預設為系統當前時間 |
 
 ---
@@ -166,7 +166,7 @@ CREATE TABLE Exchanges (
 | 欄位名稱 | 資料型別 | 中文說明 | 是否為空值 | 完整性限制 |
 |----------|---------|-----------|----|--------------|
 | `ExchangesID` |   int   | 交換編號 | 否 | PK |
-| `ProposerUserID`   | int | 發起者編號 | 否 | FK(關聯至User表) |
+| `ProposerUserID`   |  int | 發起者編號 | 否 | FK(關聯至User表) |
 | `ReceiverID` |   int  | 對方物品編號 | 否 | FK(關聯至Product表) |
 | `OrderDate` |   datetime   | 訂單日期 | 否 | 預設為系統當前時間 |
 | `Status` |  varchar   | 交易狀態 | 否 | 例如：待確認、已同意、已拒絕、已完成 |
