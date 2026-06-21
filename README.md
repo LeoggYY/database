@@ -204,12 +204,17 @@ CREATE TABLE ExchangeItems (
 
   ![系統關係圖](NEWER112.jpg)
 
-  - User <-> Product(上架):一位使用者可以有多筆訂單 → 一對多（1:N）
-  - User <-> Message(發送):一位使用者可以發送多則訊息 → 一對多（1:N）
-  - User <-> Message(接收):一位使用者可以接收多則訊息 → 一對多（1:N）
-  - User <-> Exchanges(發起交換):一位使用者可以發起多次（筆）交換紀錄 → 一對多（1:N）
-  - Product <-> Category(歸類):多個商品可以被歸類在同一個分類下 → 多對一（N:1）
-  - Product <-> Exchanges(包含):一個商品只會出現在一筆交換紀錄中 → 一對一（1:1）
+- category 1 —— N product：歸類
+- users 1 —— N product：擁有
+- product 1 —— N productimages：擁有圖片
+- users 1 —— N exchanges：發起
+- users 1 —— N exchanges：接收
+- exchanges 1 —— N exchangeitems：包含
+- product 1 —— N exchangeitems：出現在
+- exchanges 1 —— N message：包含訊息
+- users 1 —— N message：發送
+- users 1 —— N message：接收
+
 
 ---
 
