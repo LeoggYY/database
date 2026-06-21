@@ -247,7 +247,7 @@ JOIN Category c ON p.CategoryID = c.CategoryID
 LEFT JOIN ProductImages pi ON p.ProductID = pi.ProductID
 WHERE p.Status = '可交換';
 ```
----
+
 
 <img width="633" height="360" alt="image" src="https://github.com/user-attachments/assets/57f5d2d9-f7b9-435d-bdd3-d611d4c30c64" />
 
@@ -270,7 +270,7 @@ SELECT
     (SELECT COUNT(*) FROM Exchanges WHERE Status = '待確認') AS PendingExchanges,
     (SELECT COUNT(*) FROM Exchanges WHERE Status = '已完成') AS CompletedExchanges;
 ```
----
+
 
 <img width="906" height="50" alt="image" src="https://github.com/user-attachments/assets/41cde18a-acca-45db-abbf-a653fb9ad94c" />
 
@@ -297,5 +297,6 @@ JOIN Category c ON p.CategoryID = c.CategoryID
 LEFT JOIN ProductImages pi ON p.ProductID = pi.ProductID
 WHERE p.Status = '可交換';
 ```
----
 <img width="921" height="68" alt="image" src="https://github.com/user-attachments/assets/0cfb6653-4c2a-45ea-b991-5f215a4cc746" />
+
+---
