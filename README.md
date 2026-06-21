@@ -23,7 +23,7 @@
 
 ## 資料庫設計圖(ERDIAGRAM)]
 
- ![ERDIAGRAM](ER1.jpg)
+ ![ERDIAGRAM](NEWER.jpg)
 
 ### `users` -使用者資料表
 
@@ -202,7 +202,7 @@ CREATE TABLE ExchangeItems (
 ---
 ## 關係介紹
 
-  ![系統關係圖](ER11.jpg)
+  ![系統關係圖](NEWER112.jpg)
 
   - User <-> Product(上架):一位使用者可以有多筆訂單 → 一對多（1:N）
   - User <-> Message(發送):一位使用者可以發送多則訊息 → 一對多（1:N）
