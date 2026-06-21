@@ -247,7 +247,7 @@ JOIN Category c ON p.CategoryID = c.CategoryID
 LEFT JOIN ProductImages pi ON p.ProductID = pi.ProductID
 WHERE p.Status = '可交換';
 ```
-這裡只查USER1跟2的交易
 <img width="633" height="360" alt="image" src="https://github.com/user-attachments/assets/57f5d2d9-f7b9-435d-bdd3-d611d4c30c64" />
+這裡只查USER1跟2的交易
 可以看到李小美想要用小孩玩具與資料庫課本向王小明交換相機
 ---
